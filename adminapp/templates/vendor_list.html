@@ -1,0 +1,196 @@
+{% extends "index.html" %}
+{% block content %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor List</title>
+    <style>
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: white;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            color: #e63946;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #ff6b6b, #ff927f);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #fff5f5;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ffeaea;
+        }
+
+        tr:hover {
+            background: #ffd6d6;
+            transition: 0.3s ease-in-out;
+        }
+
+        .no-data {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            min-width: 90px;
+        }
+
+        .status-pending {
+            background-color: #ffcc00;
+            color: #7a5900;
+        }
+
+        .status-approved {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status-rejected {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            border: none;
+            margin: 5px; /* Adds space between buttons */
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            td .btn {
+                display: block;
+                margin: 5px auto;
+            }
+        }
+    </style>
+
+    <div class="wrapper">
+        <div class="container">
+            <h2>Vendor List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sl No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile No</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vendor in vendors %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ vendor.name }}</td>
+                        <td>{{ vendor.email }}</td>
+                        <td>{{ vendor.mobile_no }}</td>
+                        <td>{{ vendor.category }}</td>
+                        <td>
+                            <span class="status {% if vendor.status == 'pending' %}status-pending{% elif vendor.status == 'approved' %}status-approved{% else %}status-rejected{% endif %}">
+                                {{ vendor.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if vendor.status == "pending" or vendor.status == "rejected" %}
+                                <a href="{% url 'approve_vendor' vendor.id %}" class="btn btn-success">Approve</a>
+                            {% endif %}
+                            
+                            {% if vendor.status == "pending" or vendor.status == "approved" %}
+                                <a href="{% url 'reject_vendor' vendor.id %}" class="btn btn-danger">Reject</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="no-data">No vendors available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

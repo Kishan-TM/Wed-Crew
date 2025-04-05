@@ -1,0 +1,211 @@
+{% extends "index.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Event Package</title>
+  <style>
+    /* General styles */
+    body {
+
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    /* Centered container */
+    .container {
+      justify-content: center;
+      align-items: center;
+
+      max-width: 600px;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .container:hover {
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Heading styles */
+    h2 {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      width: 50px;
+      height: 3px;
+      background: #ff7f50;
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    /* Form label styling */
+    .form-label {
+      font-weight: 600;
+      color: #4a5568;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    /* Input, select, and textarea styling */
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #cbd5e0;
+      padding: 12px;
+      font-size: 15px;
+      width: 100%;
+      transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .form-control:focus {
+      border-color: #ff7f50;
+      box-shadow: 0 0 5px rgba(255, 127, 80, 0.5);
+      outline: none;
+    }
+
+    /* Form Row Styling */
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    /* Make fields equal width */
+    .col-md-6 {
+      flex: 1;
+      min-width: 48%;
+      /* Ensures proper spacing in smaller screens */
+    }
+
+    /* Submit button */
+    .btn-primary {
+      background-color: #ff7f50;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease-in-out;
+      width: 100%;
+      margin-top: 15px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background-color: #e67e22;
+    }
+
+    /* Success message */
+    #success-message {
+      display: none;
+      text-align: center;
+      font-weight: 600;
+      color: green;
+      margin-bottom: 15px;
+    }
+
+    /* Textarea */
+    textarea.form-control {
+      resize: vertical;
+      height: 100px;
+    }
+
+    /* Responsive Fix */
+    @media (max-width: 768px) {
+      .col-md-6 {
+        min-width: 100%;
+        /* Stack fields on smaller screens */
+      }
+
+      .container {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Add Event Package</h2>
+
+    <!-- Success Message (initially hidden) -->
+    <div id="success-message" class="alert alert-success">
+      Package added successfully!
+    </div>
+
+    <form id="package-form" method="post">
+      {% csrf_token %}
+      <div class="row">
+        <!-- Package Type -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Package Type</label>
+          <select name="name" class="form-control" required>
+            <option value="basic">Basic</option>
+            <option value="premium">Premium</option>
+            <option value="luxury">Luxury</option>
+          </select>
+        </div>
+
+        <!-- Price -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Price</label>
+          <input type="number" step="0.01" name="price" class="form-control" required />
+        </div>
+
+        <!-- Max Guests -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Max Guests</label>
+          <input type="number" name="max_guests" class="form-control" required />
+        </div>
+
+        <!-- Services -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Services</label>
+          <input type="text" name="services" class="form-control" required
+            placeholder="e.g., Catering, Music, Photography" />
+        </div>
+      </div>
+
+      <!-- Extra Services (Full Width) -->
+      <div class="mb-3">
+        <label class="form-label">Extra Services</label>
+        <textarea name="extra_services" class="form-control" placeholder="Any additional services"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Add Package</button>
+    </form>
+  </div>
+
+  <!-- <script>
+    document.getElementById("package-form").addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent form submission
+      document.getElementById("success-message").style.display = "block"; // Show success message
+      setTimeout(function () {
+        document.getElementById("success-message").style.display = "none";
+      }, 3000); // Hide message after 3 seconds
+    });
+  </script> -->
+</body>
+
+</html>
+{% endblock %}

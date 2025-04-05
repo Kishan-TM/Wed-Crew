@@ -1,0 +1,219 @@
+{% extends "index.html" %}
+{% block content %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payments</title>
+  <style>
+ 
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color:white;
+        padding: 20px;
+      }
+       
+    .container1 {
+      width: 80%;
+      max-width: 1200px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h6 {
+      color: #ff6b6b;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2.5em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      position: relative;
+      animation: slideIn 1s ease-out;
+    }
+
+    h6::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(135deg, #ff6b6b, #ff927f);
+      margin: 10px auto;
+      border-radius: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #ffffff, #e6e6e6);
+      max-height: 500px;
+      display: block;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    table::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    th, td {
+      padding: 20px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    th {
+      background: linear-gradient(135deg, #ff6b6b, #ff927f);
+      color: white;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.03);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-payments {
+      text-align: center;
+      padding: 30px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead tr {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 15px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      td {
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+      }
+
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        text-align: left;
+        font-weight: 700;
+        color: #ff6b6b;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #ff6b6b, #ff927f);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff927f;
+    }
+  </style>
+</head>
+<body>
+    <div class="wrapper">
+  <div class="container1">
+    <h6>Payments</h6>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Booking ID</th>
+          <th>Payment Method</th>
+          <th>Amount Paid</th>
+          <th>Payment Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment in payments %}
+          <tr>
+            <td data-label="ID">{{ payment.id }}</td>
+            <td data-label="User">{{ payment.user.name }}</td>
+            <td data-label="Booking ID">{{ payment.booking.id }}</td>
+            <td data-label="Payment Method">{{ payment.get_payment_method_display }}</td>
+            <td data-label="Amount Paid">{{ payment.amount_paid }}</td>
+            <td data-label="Payment Date">{{ payment.payment_date }}</td>
+          </tr>
+        {% empty %}
+          <tr class="no-payments">
+            <td colspan="6">No payments found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+{% endblock %}

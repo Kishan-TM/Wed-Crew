@@ -1,0 +1,207 @@
+{% extends "index.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking List</title>
+    <style>
+        /* Wrapper to center the container */
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        /* Booking Table Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+            overflow-x: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff6b6b;
+            font-size: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            background: white;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #ff6b6b, #ff927f);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #fff0f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ffe5e5;
+        }
+
+        tr:hover {
+            background: #ffcccc;
+            transition: 0.3s ease-in-out;
+        }
+
+        /* No Data Styling */
+        .no-data {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+        }
+
+        /* Status Badge Styling */
+        .status {
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            min-width: 100px;
+        }
+
+        .status-pending {
+            background-color: #ffcc00;
+            color: #7a5900;
+        }
+
+        .status-confirmed {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .status-cancelled {
+            background-color: #f44336;
+            color: white;
+        }
+
+        /* Approve & Reject Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Add specific spacing between buttons */
+        .btn-approve {
+            margin-right: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            table, th, td {
+                display: block;
+                width: 100%;
+            }
+
+            th {
+                text-align: center;
+                padding: 10px;
+            }
+
+            td {
+                text-align: center;
+                padding: 12px;
+            }
+
+            td a {
+                display: block;
+                margin: 5px auto;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h2>Booking List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sl. No</th>
+                        <th>Name</th>
+                        <th>Mobile Number</th>
+                        <th>Email</th>
+                        <th>Location</th>
+                        <th>Marriage Date</th>
+                        <th>Participants</th>
+                        <th>Event Package</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ booking.name }}</td>
+                        <td>{{ booking.mobile_number }}</td>
+                        <td>{{ booking.email }}</td>
+                        <td>{{ booking.location }}</td>
+                        <td>{{ booking.date_of_marriage }}</td>
+                        <td>{{ booking.number_of_participants }}</td>
+                        <td>{{ booking.event_package.name }}</td>
+                       
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="10" class="no-data">No bookings available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

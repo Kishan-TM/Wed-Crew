@@ -1,0 +1,120 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<style>
+    .page-container {
+        max-width: 900px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        font-size: 26px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #ff6b6b;
+        text-align: center;
+    }
+
+    .add-btn {
+        display: inline-block;
+        background-color: #6f4ec7;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .add-btn:hover {
+        background-color: #6f4ec7;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fdfdfd;
+        border: 1px solid #ddd;
+    }
+
+    table th, table td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #ff6b6b;
+        font-weight: bold;
+        color: white;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    table td {
+        color: #555;
+        font-size: 14px;
+    }
+
+    .no-data {
+        text-align: center;
+        padding: 15px;
+        font-style: italic;
+        color: #999;
+    }
+</style>
+<div class="page-container">
+    <h2>Vendor Feedback</h2>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vendor</th>
+                    <th>Feedback</th>
+                    <th>Rating</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feedback in feedbacks %}
+                <tr>
+                    <td>{{ feedback.id }}</td>
+                    <td>{{ feedback.vendor.name }}</td>
+                    <td>{{ feedback.text }}</td>
+                    <td>
+                        {% for i in ''|ljust:feedback.rating %}
+                            ⭐
+                        {% endfor %}
+                    </td>
+                    <td>{{ feedback.created_at|date:"d M Y, H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No feedback available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

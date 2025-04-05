@@ -1,0 +1,114 @@
+{% extends "index.html" %}
+{% block content %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Packages</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        /* Centering the container */
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full height of the viewport */
+            padding: 20px;
+            
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 350px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            position: relative;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff6b6b;
+            font-size: 32px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .card-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .card-price {
+            font-size: 20px;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .card-details {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .card-icon {
+            font-size: 24px;
+            color: #ff6b6b;
+            margin-right: 10px;
+        }
+
+        .no-data {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+            width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card {
+                max-width: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h2>Event Packages</h2>
+            {% for package in packages %}
+            <div class="card">
+                <div class="card-title">{{ package.get_name_display }}</div>
+                <div class="card-price"><span class="card-icon">💰</span>₹{{ package.price }}</div>
+                <div class="card-details"><span class="card-icon">👥</span><strong>Max Guests:</strong> {{ package.max_guests }}</div>
+                <div class="card-details"><span class="card-icon">🍽️</span><strong>Services:</strong> {{ package.services }}</div>
+                <div class="card-details"><span class="card-icon">🎁</span><strong>Extra Services:</strong> {{ package.extra_services|default:"N/A" }}</div>
+            </div>
+            {% empty %}
+            <div class="no-data">No packages available.</div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
