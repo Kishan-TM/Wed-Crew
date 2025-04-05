@@ -61,6 +61,7 @@ urlpatterns = [
     path('servicesdetails/',  VendorServicedetailView.as_view({'get': 'list'}), name='service-list'),
     path('user-feedbacks/', UserFeedbackListCreateView.as_view(), name='feedback-list'),
     path("user_service_bookings/", UserServiceBookingAPIView.as_view(), name="user_service_bookings"),
+    path("user_package_bookings/", UserPackageBookingAPIView.as_view(), name="user_package_bookings"),
     # path("submit-feedback/", SubmitFeedbackView.as_view(), name="submit-feedback"),
     path('', include(router.urls)),
     

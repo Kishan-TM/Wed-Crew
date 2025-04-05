@@ -202,3 +202,9 @@ class ViewServiceBookingSerializer(serializers.ModelSerializer):
         ]
         
         
+class ViewBookingSerializer(serializers.ModelSerializer):
+    event_package_name = serializers.CharField(source='event_package.name', read_only=True)
+
+    class Meta:
+        model = Booking
+        fields = ['id', 'name', 'mobile_number', 'email', 'location', 'date_of_marriage', 'number_of_participants', 'event_package_name']

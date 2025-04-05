@@ -607,7 +607,27 @@ class UserFeedbackListCreateView(generics.ListCreateAPIView):
             {"status": "error", "errors": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST
         )  
+        
+from .serializers import ViewBookingSerializer
 
+class UserPackageBookingAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        user_id = request.query_params.get("user_id")
 
-    
+        if not user_id:
+            return Response(
+                {"error": "User ID is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        bookings = Booking.objects.filter(user_id=user_id).select_related('user', 'event_package')
+
+        if not bookings.exists():
+            return Response(
+                {"message": "No bookings found for this user."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ViewBookingSerializer(bookings, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
