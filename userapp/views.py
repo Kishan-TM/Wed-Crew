@@ -630,4 +630,3 @@ class UserPackageBookingAPIView(APIView):
 
         serializer = ViewBookingSerializer(bookings, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
